@@ -290,6 +290,18 @@
             };
         }
 
+        // Robust decoding helper that converts '+' to spaces and handles nulls safely
+        function safeDecode(value) {
+            if (!value) return 'N/A';
+            try {
+                // Convert '+' back to spaces first, as Server.UrlEncode encodes spaces as '+'
+                const withSpaces = value.replace(/\+/g, ' ');
+                return decodeURIComponent(withSpaces);
+            } catch (e) {
+                return value;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const data = getQueryParams();
 
@@ -315,23 +327,23 @@
                 return;
             }
 
-            // Populate page text fields
-            document.getElementById('studentName').textContent = decodeURIComponent(data.name);
-            document.getElementById('studentID').textContent = decodeURIComponent(data.id);
-            document.getElementById('bornDate').textContent = data.born ? decodeURIComponent(data.born) : 'N/A';
-            document.getElementById('faculty').textContent = data.faculty ? decodeURIComponent(data.faculty) : 'N/A';
-            document.getElementById('major').textContent = data.major ? decodeURIComponent(data.major) : 'N/A';
-            document.getElementById('year').textContent = data.year ? decodeURIComponent(data.year) : 'N/A';
-            document.getElementById('academicYear').textContent = data.ay ? decodeURIComponent(data.ay) : 'N/A';
-            document.getElementById('validity').textContent = data.val ? decodeURIComponent(data.val) : 'N/A';
+            // Populate page text fields using robust decoder
+            document.getElementById('studentName').textContent = safeDecode(data.name);
+            document.getElementById('studentID').textContent = safeDecode(data.id);
+            document.getElementById('bornDate').textContent = safeDecode(data.born);
+            document.getElementById('faculty').textContent = safeDecode(data.faculty);
+            document.getElementById('major').textContent = safeDecode(data.major);
+            document.getElementById('year').textContent = safeDecode(data.year);
+            document.getElementById('academicYear').textContent = safeDecode(data.ay);
+            document.getElementById('validity').textContent = safeDecode(data.val);
 
             // Study Period concatenation
-            const fromDate = data.from ? decodeURIComponent(data.from) : '';
-            const toDate = data.to ? decodeURIComponent(data.to) : '';
-            if (fromDate && toDate) {
+            const fromDate = safeDecode(data.from);
+            const toDate = safeDecode(data.to);
+            if (fromDate !== 'N/A' && toDate !== 'N/A') {
                 document.getElementById('studyPeriod').textContent = `${fromDate} to ${toDate}`;
             } else {
-                document.getElementById('studyPeriod').textContent = fromDate || toDate || 'N/A';
+                document.getElementById('studyPeriod').textContent = fromDate !== 'N/A' ? fromDate : (toDate !== 'N/A' ? toDate : 'N/A');
             }
         });
     </script>
