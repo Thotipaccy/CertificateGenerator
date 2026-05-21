@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUCA Academic Certificate Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #e8eaf6;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --bg-page: #f4f6fc;
+            --bg-card: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .verification-wrapper {
+            width: 100%;
+            max-width: 550px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.08);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card-header {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .card-header p {
+            margin: 6px 0 0 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+        }
+
+        .verify-icon {
+            width: 72px;
+            height: 72px;
+            background-color: var(--success-light);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: 0 0 0 8px rgba(46, 125, 50, 0.05);
+            animation: pulse 2s infinite;
+        }
+
+        .verify-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: currentColor;
+        }
+
+        .status-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--success);
+            margin: 0 0 4px 0;
+        }
+
+        .status-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .details-section {
+            padding: 10px 30px 30px 30px;
+        }
+
+        .details-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--primary-light);
+            padding-bottom: 6px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px dashed #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-card {
+            border-top: 5px solid #d32f2f;
+        }
+
+        .error-title {
+            color: #d32f2f;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 12px rgba(46, 125, 50, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 125, 50, 0);
+            }
+        }
+
+        @media (min-width: 480px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .info-row.full-width {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="verification-wrapper">
+        <div class="card" id="verificationCard">
+            <!-- Header -->
+            <div class="card-header">
+                <h2>ADVENTIST UNIVERSITY OF CENTRAL AFRICA</h2>
+                <p>Office of the Registrar • Academic Verification Portal</p>
+            </div>
+
+            <!-- Verification Badge -->
+            <div class="badge-container">
+                <div class="verify-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <h1 class="status-title">Certificate Verified</h1>
+                <p class="status-subtitle">This digital document is authentic and officially issued by AUCA.</p>
+            </div>
+
+            <!-- Details -->
+            <div class="details-section">
+                <h3 class="details-title">Student Credentials</h3>
+                <div class="info-grid">
+                    <div class="info-row full-width">
+                        <span class="info-label">Student Name</span>
+                        <span class="info-value" id="studentName">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Student ID</span>
+                        <span class="info-value" id="studentID">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Date of Birth</span>
+                        <span class="info-value" id="bornDate">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Faculty</span>
+                        <span class="info-value" id="faculty">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Major</span>
+                        <span class="info-value" id="major">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Year of Study</span>
+                        <span class="info-value" id="year">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Academic Year</span>
+                        <span class="info-value" id="academicYear">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Study Period</span>
+                        <span class="info-value" id="studyPeriod">N/A</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Validity</span>
+                        <span class="info-value" id="validity">N/A</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 Adventist University of Central Africa. All rights reserved.<br>
+            For inquiries, contact the Registrar's Office at <a href="mailto:registrar@auca.ac.rw">registrar@auca.ac.rw</a>
+        </div>
+    </div>
+
+    <script>
+        // Parse URL query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id'),
+                name: params.get('name'),
+                born: params.get('born'),
+                from: params.get('from'),
+                to: params.get('to'),
+                year: params.get('year'),
+                faculty: params.get('faculty'),
+                major: params.get('major'),
+                ay: params.get('ay'),
+                val: params.get('val')
+            };
+        }
+
+        // Robust decoding helper that converts '+' to spaces and handles nulls safely
+        function safeDecode(value) {
+            if (!value) return 'N/A';
+            try {
+                // Convert '+' back to spaces first, as Server.UrlEncode encodes spaces as '+'
+                const withSpaces = value.replace(/\+/g, ' ');
+                return decodeURIComponent(withSpaces);
+            } catch (e) {
+                return value;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = getQueryParams();
+
+            // Validate that we have at least student ID and name
+            if (!data.id || !data.name) {
+                const card = document.getElementById('verificationCard');
+                card.classList.add('error-card');
+                card.innerHTML = `
+                    <div class="card-header" style="background-color: #d32f2f;">
+                        <h2>VERIFICATION ERROR</h2>
+                        <p>Academic Verification Portal</p>
+                    </div>
+                    <div class="badge-container" style="padding: 40px 20px;">
+                        <div class="verify-icon" style="background-color: #ffebee; color: #d32f2f; box-shadow: none; animation: none;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        </div>
+                        <h1 class="error-title">Invalid Certificate Record</h1>
+                        <p class="status-subtitle">The verification link is malformed or does not contain valid academic signature credentials. Please contact the Registrar's Office for assistance.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Populate page text fields using robust decoder
+            document.getElementById('studentName').textContent = safeDecode(data.name);
+            document.getElementById('studentID').textContent = safeDecode(data.id);
+            document.getElementById('bornDate').textContent = safeDecode(data.born);
+            document.getElementById('faculty').textContent = safeDecode(data.faculty);
+            document.getElementById('major').textContent = safeDecode(data.major);
+            document.getElementById('year').textContent = safeDecode(data.year);
+            document.getElementById('academicYear').textContent = safeDecode(data.ay);
+            document.getElementById('validity').textContent = safeDecode(data.val);
+
+            // Study Period concatenation
+            const fromDate = safeDecode(data.from);
+            const toDate = safeDecode(data.to);
+            if (fromDate !== 'N/A' && toDate !== 'N/A') {
+                document.getElementById('studyPeriod').textContent = `${fromDate} to ${toDate}`;
+            } else {
+                document.getElementById('studyPeriod').textContent = fromDate !== 'N/A' ? fromDate : (toDate !== 'N/A' ? toDate : 'N/A');
+            }
+        });
+    </script>
+</body>
+</html>
