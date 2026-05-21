@@ -9,7 +9,7 @@ namespace CertificateGenerator
     {
         string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        public string QRCodeUrl { get; set; }
+        public string QRCodeUrl { get; set; } = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {

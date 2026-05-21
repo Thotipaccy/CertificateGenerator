@@ -242,11 +242,28 @@
                 </div>
 
                 <div class="qr-code">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= Server.UrlEncode(QRCodeUrl) %>" alt="QR Code" />
+                    <div id="qrCodeContainer"></div>
                     <br />Scan to verify my Validity
                 </div>
             </div>
         </div>
     </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var qrUrl = '<%= QRCodeUrl.Replace("\'", "\\\'") %>';
+            if (qrUrl && qrUrl.length > 0) {
+                new QRCode(document.getElementById('qrCodeContainer'), {
+                    text: qrUrl,
+                    width: 150,
+                    height: 150,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.L
+                });
+            }
+        });
+    </script>
 </body>
 </html>
