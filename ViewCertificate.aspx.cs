@@ -30,18 +30,23 @@ namespace CertificateGenerator
 
         private void GenerateQRCodeLink()
         {
-            string domain = System.Configuration.ConfigurationManager.AppSettings["DomainName"];
-            string currentUrl = Request.Url.AbsoluteUri;
+            string baseUrl = "https://thotipaccy.github.io/CertificateGenerator/verify.html";
+            
+            string query = string.Format(
+                "?id={0}&name={1}&born={2}&from={3}&to={4}&year={5}&faculty={6}&major={7}&ay={8}&val={9}",
+                Server.UrlEncode(litStudentID.Text),
+                Server.UrlEncode(litStudentName.Text),
+                Server.UrlEncode(litBornDate.Text),
+                Server.UrlEncode(litStudiedFrom.Text),
+                Server.UrlEncode(litStudiedTo.Text),
+                Server.UrlEncode(litYear.Text),
+                Server.UrlEncode(litFaculty.Text),
+                Server.UrlEncode(litMajor.Text),
+                Server.UrlEncode(litAcademicYear.Text),
+                Server.UrlEncode(litValidity.Text)
+            );
 
-            if (!string.IsNullOrEmpty(domain) && domain != "localhost")
-            {
-                string host = Request.Url.Host;
-                QRCodeUrl = currentUrl.Replace(host, domain);
-            }
-            else
-            {
-                QRCodeUrl = currentUrl;
-            }
+            QRCodeUrl = baseUrl + query;
         }
 
         private void LoadCertificateData(string studentID)
