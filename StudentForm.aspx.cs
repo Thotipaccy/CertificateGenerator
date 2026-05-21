@@ -38,8 +38,8 @@ namespace CertificateGenerator
                     txtStudentName.Text = dr["StudentName"].ToString();
                     if (dr["BornDate"] != DBNull.Value)
                         txtBornDate.Text = Convert.ToDateTime(dr["BornDate"]).ToString("yyyy-MM-dd");
-                    txtStudiedFrom.Text = dr["StudiedFrom"].ToString();
-                    txtStudiedTo.Text = dr["StudiedTo"].ToString();
+                    txtStudiedFrom.Text = FormatForMonthInput(dr["StudiedFrom"].ToString());
+                    txtStudiedTo.Text = FormatForMonthInput(dr["StudiedTo"].ToString());
                     txtYear.Text = dr["Year"].ToString();
                     txtFaculty.Text = dr["Faculty"].ToString();
                     txtMajor.Text = dr["Major"].ToString();
@@ -48,6 +48,19 @@ namespace CertificateGenerator
                     txtComment.Text = dr["Comment"].ToString();
                 }
             }
+        }
+
+        private string FormatForMonthInput(string value)
+        {
+            if (string.IsNullOrEmpty(value) || value.Equals("Date", StringComparison.OrdinalIgnoreCase))
+                return "";
+
+            DateTime dt;
+            if (DateTime.TryParse(value, out dt))
+            {
+                return dt.ToString("yyyy-MM");
+            }
+            return value;
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -77,8 +90,16 @@ namespace CertificateGenerator
                 cmd.Parameters.AddWithValue("@StudentID", txtStudentID.Text.Trim());
                 cmd.Parameters.AddWithValue("@StudentName", txtStudentName.Text.Trim());
                 cmd.Parameters.AddWithValue("@BornDate", string.IsNullOrEmpty(txtBornDate.Text) ? (object)DBNull.Value : DateTime.Parse(txtBornDate.Text));
-                cmd.Parameters.AddWithValue("@StudiedFrom", txtStudiedFrom.Text.Trim());
-                cmd.Parameters.AddWithValue("@StudiedTo", txtStudiedTo.Text.Trim());
+                
+                string studiedFrom = txtStudiedFrom.Text.Trim();
+                string studiedTo = txtStudiedTo.Text.Trim();
+                if (string.IsNullOrEmpty(studiedTo))
+                {
+                    studiedTo = "Date";
+                }
+                
+                cmd.Parameters.AddWithValue("@StudiedFrom", studiedFrom);
+                cmd.Parameters.AddWithValue("@StudiedTo", studiedTo);
                 cmd.Parameters.AddWithValue("@Year", txtYear.Text.Trim());
                 cmd.Parameters.AddWithValue("@Faculty", txtFaculty.Text.Trim());
                 cmd.Parameters.AddWithValue("@Major", txtMajor.Text.Trim());
